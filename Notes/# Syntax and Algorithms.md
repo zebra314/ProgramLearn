@@ -12,7 +12,7 @@
 
 1. 檢查, 搜尋位置
 2. 返回位址
-3. Code: 
+3. Code:
 
 ```c++
  auto it = find(v.begin(), v.end(), K);
@@ -42,7 +42,7 @@ v: [ 1 | 2 | 3 | 4 | ... | 999 ]
    begin()
 ```
 
-# Algorithms 
+# Algorithms
 
 ## LIS基礎演算法
 
@@ -122,4 +122,19 @@ int binary_search(vector<int>v,int target) //find the position
     }
     return -1;//fail
 }
+```
+
+## 輾轉相除法
+
+1. 求最大公因數
+
+```c++
+    while(b!=0 and c!=0)
+    {
+        if(b>=c)
+            b=b%c;
+        else
+            c=c%b;
+    }
+    //最大公因數為max(b,c)
 ```

@@ -33,7 +33,6 @@ int main()
     getchar();
     while (i--)
     {
-        b='0', c='0';
         k = 0;
         d.clear();
         while (!e.empty())
@@ -47,7 +46,6 @@ int main()
         while (s >> a)
         {
             d.push_back(a);
-            e.push(a);
         }
         for (j = 0; j < d.size(); j++)
         {
