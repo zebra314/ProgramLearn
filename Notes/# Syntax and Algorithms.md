@@ -1,8 +1,19 @@
 # Syntax
 
+## ```set``` , ```multiset```
+
+1. STL容器
+2. ```.insert()```插入元素
+3. ```set```會自動消除重複元素, ```multiset```會保留
+4. 元素插入後會自動排序
+5. ```.clear()```初始化
+6. ```.earse()```刪除指定元素
+7. ```.count()```判斷元素是否存在,回傳 0 or 1
+8. ```.find()```也是用來判斷元素是存在,但回傳的是指向其儲存位址的指標
+
 ## ```lower_bound()``` ,  ```upper_bound()```
 
-1. ```lower_bound( .begin() , .end() , value )```
+1. ```lower_bound(``` _.begin()_ ```,``` _.end()_ ```,``` _value_ ```)```
 2. 返回數值  
 3. Binary Search
 4. ```*lower_bound()``` 指向該數值的儲存位置

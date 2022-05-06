@@ -58,11 +58,17 @@ int main()
         cout<<d.top()<<"\n";
         d.pop();
     }
+}
 ```
 
-## 10520 - Conformity
+## 11286 - Conformity
+
+### Websites
+
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=2261) 
 
 ### Steps
+
 1. stringstream 分割字串 轉數字
 2. algorithm 排序數字
 3. ostringstream 合併數字成一個文字
@@ -127,4 +133,284 @@ int main()
         cout << r << "\n";
     }
 }
+```
+
+## 10035 - Primary Arithmetic
+
+>2022/5/6
+
+### Websites
+
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=976) 
+
+### Code - 1
+
+```c++
+//判斷式多 不簡潔
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    string a,b;
+    int i,j,k,l=0;
+    while(cin>>a>>b)
+    {
+        l=0;
+        k=0;
+        if(a=="0" and b=="0")break;
+        i=a.length()-1;
+        j=b.length()-1;
+        while(1)
+        {
+            if(j<0 and i<0 )break;
+            if(min(i,j)<0 and max(i,j)>=0 and l==1)
+            {
+                if(i>j)
+                {
+                    if(int(a[i]-'0')+1>=10)k++;
+                    else l=0;
+                }
+                else
+                {
+                    if(int(b[j]-'0')+1>=10)k++;
+                    else l=0;
+                }
+            }
+            else if(i>=0 and j>=0)
+            {
+                if(int(a[i]-'0')+int(b[j]-'0')+l>=10)
+                {
+                    k++;
+                    l=1;
+                }
+                else
+                {
+                    l=0;
+                }
+            }else 
+                break;
+            j--;
+            i--;
+        }
+        if(k==0)cout<<"No carry operation."<<"\n";
+        else if (k==1)cout<<"1 carry operation."<<"\n";
+        else cout<<k<<" carry operations."<<"\n";
+    }
+```
+
+### Code - 2
+
+```c++
+//Better solution
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int a,b,i,j;
+    while(cin>>a>>b)
+    {
+        i=0;
+        j=0;
+        while(a>=0 or b>=0)
+        {
+            if(a==0 and b==0)break;
+            else if(a %10+b%10+i>=10)
+            {
+                i=1;
+                j++;
+            }
+            else
+            {
+                i=0;
+            }
+            a=a/10;
+            b=b/10;
+        }
+        if(j==0)cout<<"No carry operation."<<"\n";
+        else if (j==1)cout<<"1 carry operation."<<"\n";
+        else cout<<j<<" carry operations."<<"\n";
+    }
+}
+```
+
+## 10252 - Common Permutation
+
+>2022/5/6
+
+### Websites
+
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1193)   
+
+### Steps
+
+1. 分別對兩個字串,以字母元素為索引,儲存數量
+2. 比對兩個map,若有相同元素則匯入multiset
+3. 同元素重複出現,則匯入多次
+4. 遍歷multiset
+
+### Code
+
+```c++
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    map<char,int>a,c;
+    multiset<char>b;
+    string i,j;
+    int m;
+    while(getline(cin,i),getline(cin,j))
+    {
+        m=0;
+        a.clear();
+        c.clear();
+        b.clear();
+        for(int l=0;l<i.length();l++)
+        {
+            a[i[l]]++;
+        }
+        for(int l=0;l<j.length();l++)
+        {
+            c[j[l]]++;
+        }
+        for(const auto &l:a)//l.first字母 l.second數量
+        {
+            if(c[l.first]>=1)
+            {
+                for(int i=1;i<=min(c[l.first],l.second);i++)
+                {
+                    b.insert(l.first);
+                }
+            }
+        }
+        for(const auto&l :b)
+        {
+            cout<<l;
+        }
+        cout<<"\n";
+    }
+}
+```
+
+## 793 - Network Connections
+
+### Websites
+
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=734)   
+
+### Code
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    map<int, map<int, int>> e;
+    vector<pair<int, int>> h;
+    int a, b, g, d, m;
+    char c;
+    cin >> a;
+    while (a--)
+    {
+        m = 0;
+        h.clear();
+        e.clear();
+        cin >> b;
+        getchar();
+        while (cin.get(c))
+        {
+            if (c == '\n')
+            {
+                break;
+            }
+            else if (c == 'c')
+            {
+                cin >> g >> d;
+                getchar();
+                e[g][d] = 1;
+                e[d][g] = 1;
+            }
+            else if (c == 'q')
+            {
+                cin >> g >> d;
+                getchar();
+                h.push_back(make_pair(g, d));
+            }
+        }
+        for (const auto n : e)
+        {
+            e[n.first][n.first] = 1;
+        }
+        for (const auto t : h)
+        {
+            for (const auto n : e[t.first])
+            {
+                if (e[t.second][n.first] == 1)
+                {
+                    m++;
+                    break;
+                }
+            }
+        }
+        cout << m << "," << h.size() - m << "\n\n";
+    }
+}
+```
+
+## Problem
+
+>Date
+
+### Websites
+
+>[online judge 題目連結]()   
+
+### Code
+
+```c++
+
+```
+
+## Problem
+
+>Date
+
+### Websites
+
+>[online judge 題目連結]()   
+
+### Code
+
+```c++
+
+```
+
+## Problem
+
+>Date
+
+### Websites
+
+>[online judge 題目連結]()   
+
+### Code
+
+```c++
+
+```
+
+## Problem
+
+>Date
+
+### Websites
+
+>[online judge 題目連結]()   
+
+### Code
+
+```c++
+
 ```
