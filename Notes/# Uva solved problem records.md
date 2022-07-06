@@ -1,5 +1,7 @@
 # Uva solved problem records
 
+&nbsp;
+
 ## 481 - What Goes Up
 
 ### Websites
@@ -7,7 +9,7 @@
 >[online judge 題目連結](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=6&page=show_problem&problem=422)   
 >[LIS,高等演算法整理](https://alan23273850.github.io/Online-Judge-Problems/algorithms/%E5%BA%8F%E5%88%97/2.-%E6%9C%80%E9%95%B7%E9%81%9E%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97/)   
 >[Binary Search (1)](https://medium.com/@lindingchi/binary-search-%E9%82%A3%E4%BA%9B%E8%97%8F%E5%9C%A8%E7%B4%B0%E7%AF%80%E8%A3%A1%E7%9A%84%E9%AD%94%E9%AC%BC-%E4%B8%80-%E5%9F%BA%E7%A4%8E%E4%BB%8B%E7%B4%B9-dd2cd804aee1)   
->[Binary Search (2)](https://medium.com/appworks-school/binary-search-%E9%82%A3%E4%BA%9B%E8%97%8F%E5%9C%A8%E7%B4%B0%E7%AF%80%E8%A3%A1%E7%9A%84%E9%AD%94%E9%AC%BC-%E4%BA%8C-%E6%89%BE%E4%B8%8D%E5%88%B0%E6%80%8E%E9%BA%BC%E8%BE%A6-a308f5b9ce12)  
+>[Binary Search (2)](https://medium.com/appworks-school/binary-search-%E9%82%A3%E4%BA%9B%E8%97%8F%E5%9C%A8%E7%B4%B0%E7%AF%80%E8%A3%A1%E7%9A%84%E9%AD%94%E9%AC%BC-%E4%BA%8C-%E6%89%BE%E4%B8%8D%E5%88%B0%E6%80%8E%E9%BA%BC%E8%BE%A6-a308f5b9ce12)     
 >[find()函式](https://www.geeksforgeeks.org/how-to-find-index-of-a-given-element-in-a-vector-in-cpp/)
 
 ### Code
@@ -61,11 +63,13 @@ int main()
 }
 ```
 
+&nbsp;
+
 ## 11286 - Conformity
 
 ### Websites
 
->[online judge 題目連結](https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=2261) 
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=2261)
 
 ### Steps
 
@@ -74,7 +78,7 @@ int main()
 3. ostringstream 合併數字成一個文字
 4. map 以文字為索引 儲存數量
 5. 儲存的同時尋找最大值
-6. 遍歷 加總擁有最大值組合的人數   
+6. 遍歷 加總擁有最大值組合的人數
 (可能課程組合不同 但同時都是最大的人數 要加一起)
 
 ### Code
@@ -135,13 +139,15 @@ int main()
 }
 ```
 
+&nbsp;
+
 ## 10035 - Primary Arithmetic
 
 >2022/5/6
 
 ### Websites
 
->[online judge 題目連結](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=976) 
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=976)
 
 ### Code - 1
 
@@ -196,7 +202,10 @@ int main()
         else if (k==1)cout<<"1 carry operation."<<"\n";
         else cout<<k<<" carry operations."<<"\n";
     }
+}
 ```
+
+&nbsp;
 
 ### Code - 2
 
@@ -233,13 +242,15 @@ int main()
 }
 ```
 
+&nbsp;
+
 ## 10252 - Common Permutation
 
 >2022/5/6
 
 ### Websites
 
->[online judge 題目連結](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1193)   
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1193)
 
 ### Steps
 
@@ -292,11 +303,13 @@ int main()
 }
 ```
 
+&nbsp;
+
 ## 793 - Network Connections
 
 ### Websites
 
->[online judge 題目連結](https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=734)   
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=734)
 
 ### Code
 
@@ -359,13 +372,145 @@ int main()
 }
 ```
 
+&nbsp;
+
+## 245 - Uncompress
+
+>2022/6/19
+
+### Websites
+
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=181)
+
+### Code
+
+```c++
+#include<bits/stdc++.h>
+using namespace std;
+vector<string> b;
+string c,w;
+int d=0;
+int main()
+{   
+    while(getline(cin,c))
+    {
+        if(c =="0")break;
+        c+='\n';
+        for(int i=0;i<c.length();i++)
+        {
+            if(isalpha(c[i]))
+            {
+                w+=c[i];
+            }
+            else if(isdigit(c[i]))
+            {
+                d*=10; //進一位
+                d+=int(c[i]-'0'); //新增一位
+            }
+            else //空格 標點符號
+            {
+                //判斷前一個是數字or單字
+                if(d!=0)
+                {
+                    //是數字 讀取vector裡面的單字
+                    cout<<b[d-1];
+                    w=b[d-1];
+                    b.erase(b.begin()+d-1);
+                    b.insert(b.begin(),w);
+                    w="";
+                    d=0;
+                }
+                if(w!="")
+                {
+                    //是單字 新增到vector裡面
+                    cout<<w; 
+                    b.insert(b.begin(),w);
+                    w="";
+                }
+                cout<<c[i];
+            }
+        }
+    }
+}
+```
+
+&nbsp;
+
+## 10242 - Fourth Point
+
+>2022/7/1
+
+### Websites
+
+>[online judge 題目連結](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1183)
+
+### Steps
+
+1. 輸入兩組點 , 共八個座標 , 兩組中各有一個相同的座標 (因為是兩條相鄰的邊)
+2. 只有四種排列方式 用判斷式與```swap()``` 函式 , 將數據整理成同一種
+3. 利用向量概念求出第個點
+4. ```cout << fixed << setprecision(3)<<``` , 控制輸出三位小數
+
+### Warning 
+
++ 要用```double``` , ```float``` 不夠精 , 會有四捨五入的問題
+
+### Code
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+vector<double> po; // points
+string i;
+double j;
+double nex, ney;
+stringstream ss;
+int main()
+{
+    while (getline(cin, i))
+    {
+        ss.str("");
+        ss.clear();
+        ss << i;
+        while (ss >> j)
+        {
+            po.push_back(j);
+        }
+        if (po[0] == po[4] and po[1] == po[5])
+        {
+            swap(po[0], po[2]);
+            swap(po[1], po[3]);
+        }
+        else if (po[2] == po[6] and po[3] == po[7])
+        {
+            swap(po[4], po[6]);
+            swap(po[5], po[7]);
+        }
+        else if (po[0] == po[6] and po[1] == po[7])
+        {
+            swap(po[0], po[2]);
+            swap(po[1], po[3]);
+            swap(po[4], po[6]);
+            swap(po[5], po[7]);
+        }
+        nex = po[6] + po[0] - po[2];
+        ney = po[7] + po[1] - po[3];
+        cout << fixed << setprecision(3) << nex << " " << ney << "\n";
+        po.clear();
+    }
+}
+
+```
+
+&nbsp;
+
 ## Problem
 
 >Date
 
 ### Websites
 
->[online judge 題目連結]()   
+>[online judge 題目連結]()
 
 ### Code
 
@@ -373,19 +518,7 @@ int main()
 
 ```
 
-## Problem
-
->Date
-
-### Websites
-
->[online judge 題目連結]()   
-
-### Code
-
-```c++
-
-```
+&nbsp;
 
 ## Problem
 
@@ -393,13 +526,15 @@ int main()
 
 ### Websites
 
->[online judge 題目連結]()   
+>[online judge 題目連結]()
 
 ### Code
 
 ```c++
 
 ```
+
+&nbsp;
 
 ## Problem
 
@@ -407,10 +542,44 @@ int main()
 
 ### Websites
 
->[online judge 題目連結]()   
+>[online judge 題目連結]()
 
 ### Code
 
 ```c++
 
 ```
+
+&nbsp;
+
+## Problem
+
+>Date
+
+### Websites
+
+>[online judge 題目連結]()
+
+### Code
+
+```c++
+
+```
+
+&nbsp;
+
+## Problem
+
+>Date
+
+### Websites
+
+>[online judge 題目連結]()
+
+### Code
+
+```c++
+
+```
+
+&nbsp;

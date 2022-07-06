@@ -53,7 +53,62 @@ v: [ 1 | 2 | 3 | 4 | ... | 999 ]
    begin()
 ```
 
-# Algorithms
+## ```isalpha()```  , ```isdigit()```
+
++ 用來判斷字元是字母或數字
++ 回傳bool
+
+```c++
+isalpha('a') == 1
+isalpha('1') == 0
+isdigit('a') == 0
+isdigit('1') == 1
+```
+
+## ```.length()``` ,  ```.size()```
+
++ 回傳int
+
+```c++
+a.length()
+a.size()
+```
+
+## ```Vector``` 更動元素 
+
++ ```.erase()``` 刪除特定位置
+
+    ```c++
+    b.erase(b.begin()+3); //刪除第三個元素(b[2])
+    b.erase(b.begin()+3,b.begin()+6); //刪除第三到第六個元素
+    ```
+
++ ```.insert()``` 新增至特定位置
+
+    ```c++
+    b.insert(b.begin(),element); //在開頭加入element
+    ```
+
+## ```float``` ,  ```double``` 差別
+
++ ```float``` 32位元 有效數字6~7
++ ```double``` 64位元 有效數字15~16 (比較精確)  
+
+## ```cin``` ,```cout``` 優化
+
+```c++
+ios::sync_with_stdio(false);
+cin.tie(0);
+```
+
+## ```.sort()``` 排序函式
+
++ ```.sort( 起始位置 , 結束位置 , 排序依據 0 or 1)```
++ 排序依據 預設為小到大
+
+&nbsp;
+
+# Algorithms  
 
 ## LIS基礎演算法
 
@@ -95,7 +150,7 @@ int main()
 
 ## LIS進階演算法(只求長度)
 
-1. 時間複雜度:O(n*log*n)
+1. 時間複雜度:O(n_log_n)
 2. DP, Greedy, Binary search
 3. Code:
 

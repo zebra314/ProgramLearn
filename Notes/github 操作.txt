@@ -1,0 +1,13 @@
+位置 LittleD3092/quick-food
+
+1. 先clone資料夾下來 git clone 網址 (網址 點綠色code)
+
+2. 把要新增的檔案放進去 
+	(1) git add . 
+	(2) git commit -m"...." 
+	(3) git push
+
+3.Contribute  (在綠色code下面)
+	(1) open new pull request
+	(2) 打一些comment
+	
