@@ -1,0 +1,43 @@
+Rolling Hash、LRU cache 、Trie、Tarjan algorithm
+codeforces、atcoder
+
+STL演算法，函式(比如: sort, next_permutation, lower_bound..等等)
+
+stack，queue，deque，priority_queue，list 都要會用，STL都有容器可以用。
+
+vector非常好用。tree的觀念也要有
+
+Disjoint Set
+
+map、set
+
+背包，LCS，LIS，記憶化搜索
+
+SPFA，Dijkstra。Floyd-Warshall，最小生成樹，DFS，BFS
+
+遞迴必須熟悉、枚舉(八皇后問題基礎必學)。
+
+字串: kmp(蠻有趣的，建議學，二星題庫有)
+-Max Flow(EK算法, Dinic): 通常大型比賽可能會有，不過難在建模，不常做這種題型是真的不會
+
+-Min Cost (Max) Flow: 除了流量之外，搭配權重
+
+-KM二分匹配: 二分圖，基本上有互不相干關係都能用上，比如男女必須配對之類的
+
+-BitMask+DP: TSP會用到，以及其他能壓縮狀態的時候，然後又要爆搜的時候，自行體會
+
+-Suffix Array, Trie:  2D找多字串搜索可以用Trie壓縮(LeetCode有題目)。SA的話，O(NlogN)算法要搞懂，要用上的時候真的很好用。
+
+-Rolling Hash(Rabin Karp算法): 其實跟KMP用途一樣，找的時候加快，不過這個更猛，可以學一下，也是滑動窗口概念
+
+-Sliding Window: LeetCode常出現，通常就是很重複，然後有些東西有範圍性，就能用到。
+
+-倍增觀念，LCA，Fast Pow: LCA蠻不賴的，Pow就自己寫的時候可以用倍增方式加快，還有那該死的浮點數誤差==
+
+-凸包: 好少做這種題型(幾何)，因為我是拿來做最遠點對加速(ITSA)
+
+-線段樹，BIT Tree: 學校自辦賽有出，通常就是要加速查找(區間最小值，最大值，和)的時候會用到。
+
+-SCC強連通:  好像不常出現(UVa有)，就是Tarjan算法，反正就一系列的都學一學?
+
+-割點、橋: Tarjan算法，典型的題目。
