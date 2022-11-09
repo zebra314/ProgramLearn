@@ -1,6 +1,12 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+/*
+    題目:
+    每列資料有一個正整數N，N 最大可能到 1000 位數。
+    若 N = 0 代表輸入結束 
+    對每個輸入的數，輸出是否為 11 的倍數。輸出格式請參考 Sample Output。
+*/
 bool solve1(int i)
 {
     if(i%11 == 0) 
@@ -33,8 +39,8 @@ int main()
     {
         if(a=="0")break;
         if(solve2(a) == true)
-            cout<<a<<" is a multipule of 11."<<'\n';
+            cout<<a<<" is a multiple of 11."<<'\n';
         else 
-            cout<<a<<" is not a multipule of 11."<<'\n';
+            cout<<a<<" is not a multiple of 11."<<'\n';
     }
 }
