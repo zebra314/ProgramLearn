@@ -1,8 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-
 map<char,unsigned long long int>dig;
-
 unsigned long long int trans(string num, unsigned long long int base)
 {
     unsigned long long int ans = 0;
@@ -20,12 +18,10 @@ int main()
     string cha = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     unsigned long long int j;
     bool a;
-
     for(unsigned long long int i = 0;i<cha.length();i++)
     {
         dig[cha[i]] = i;
     }
-
     while(cin>>in)
     {  
         a = false;
