@@ -1,65 +1,45 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-unsigned long long int trans(unsigned long long int i)
+// 輾轉相除法 
+int GCD(int a, int b)
 {
-    unsigned long long int ans = 0;
-    unsigned long long int dig = 0;
-    while(i != 0)
-    {
-        ans += (i%10)*pow(2,dig);
-        i/=10;
-        dig++;
-    }
+    if(a<b) swap(a,b); // make a to be the bigger one // not necessary
+    return a%b==0 ? b : GCD(b, a%b);
+}
+
+// bin to dec
+int trans(string i) // 必須用string輸入, 再轉為int, int沒有支援到30位元, 以int輸入會爆掉
+{
+    int ans = 0;
+    for(int j = i.length()-1, k = 0; j>=0; j--, k++)
+        ans += int(i[j] - '0')*pow(2,k); 
     return ans;
 }
+
 int main()
 {
     stringstream ss;
     int count = 1;
     int times;
-    unsigned long long int a, b;
+    int a, b;
     string c, d;
     cin>>times;
     while(times--)
     {
-        ss.clear();
-        ss.str("");
+
+        // a = stoi(c, nullptr, 2);
+        // b = stoi(d, nullptr, 2);
+
         cin>>c>>d;
-        ss<<c;
-        ss>>a;
-        ss.clear();
-        ss.str("");
-        ss<<d;
-        ss>>b;
-        // cout<<trans(a)<<" "<<trans(b)<<'\n';
+        a = trans(c);
+        b = trans(d);
+
         cout<<"Pair #"<<count<<": ";
         count ++;
-        if(c[0]=='0' or d[0]=='0' or c.length() == 1 or d.length() == 1)
-        {
+        if(GCD(a,b) == 1)
             cout<<"Love is not all you need!"<<'\n';
-            continue;
-        }
-        a = trans(a);
-        b = trans(b);
-        while(a>0 and b>0) 
-        {
-            if(a>b)
-            {
-                a = a%b;
-            }
-            else 
-            {
-                b = b%a;
-            }
-        }
-        if(max(a, b) == 1)
-        {
-            cout<<"Love is not all you need!"<<'\n';
-        }
         else 
-        {
             cout<<"All you need is love!"<<'\n';
-        }
     }
 }
