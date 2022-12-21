@@ -88,5 +88,6 @@
         "xutility": "cpp",
         "xlocmon": "cpp",
         "xloctime": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }
