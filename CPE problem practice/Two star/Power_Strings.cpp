@@ -1,29 +1,26 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-bool check(string input, string ans){
-    int sub_len = ans.length();
-    int main_len = input.length();
-    if((main_len % sub_len)!= 0) return false;
-    for(int i = 0; i<main_len; i+=sub_len){ // the position of main string for sub string to start comparison
-        for(int j = 0; j<sub_len; j++){
-            if(ans[j] != input[i+j]) return false;
-        }
-    }
-    return true;
-}
-
 int solve(string input){
     int len = input.length();
-    string ans = "";
-    int posi = 0;
-    while(posi != input.length()){
-        ans += input[posi];
-        if(check(input, ans) == true) return (len/(posi+1));
-        posi++;
+    bool next = false;
+    for(int ans = 1; ans<=len; ans++){ // 重複的長度
+        if((len%ans) > 0 ) continue;
+        next = false;
+        for(int posi = 0; posi<ans; posi++){ // 以第一組重複單位為起始點
+            for(int i = posi; i<(len-ans); i+=ans){ // 比較每一組重複單位的同一個位置
+                if(input[i] != input[i+ans]){
+                    next = true;
+                    break;
+                } 
+            }
+            if(next == true) break;
+        }
+        if (next == false) return len/ans;
     }
     return 1;
 }
+
 int main(){
     string input;
     ios::sync_with_stdio(0);
