@@ -1,0 +1,6 @@
+<launch>
+    <node name="Toarduino" pkg="srv_prac" type="Toarduino.py" output="screen" launch-prefix= "gnome-terminal --command"/> 
+    <node name="input_client" pkg="srv_prac" type="input_client.py" output="screen" launch-prefix= "gnome-terminal --command"/>
+    <!-- name: node name
+    type: file name -->
+</launch>
