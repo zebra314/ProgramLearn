@@ -42,5 +42,5 @@ print('\nDetect faces at the assigned location using your classifier')
 detection.detect('data/detect/detectData.txt', clf)
 
 # Part 5: Test classifier on your own images
-print('\nDetect faces on your own images')
-detection.detect('data/detect/yourOwnImages.txt', clf)
+# print('\nDetect faces on your own images')
+# detection.detect('data/detect/yourOwnImages.txt', clf)

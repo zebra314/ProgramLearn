@@ -1,5 +1,6 @@
 import os
 import cv2
+import numpy as np
 
 def loadImages(dataPath):
     """
@@ -12,6 +13,18 @@ def loadImages(dataPath):
         dataset: The list of tuples.
     """
     # Begin your code (Part 1)
-    raise NotImplementedError("To be implemented")
+    # raise NotImplementedError("To be implemented")
     # End your code (Part 1)
+
+    # Get the absolute path of the folder
+    cwd = os.getcwd()
+    dataPath = cwd + '/AI_HW1/' + dataPath
+
+    # Collect the images in the folder
+    dataset = []
+    for directory in os.listdir(dataPath):
+      for file in os.listdir(dataPath + '/' + directory):
+        img = cv2.imread(dataPath + '/' + directory + '/' + file, cv2.IMREAD_GRAYSCALE)
+        data = (np.array(img), 1 if directory == 'face' else 0)
+        dataset.append(data)
     return dataset

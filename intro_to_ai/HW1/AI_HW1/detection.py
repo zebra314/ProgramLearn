@@ -1,6 +1,7 @@
 import os
 import cv2
 import matplotlib.pyplot as plt
+import numpy as np
 
 def detect(dataPath, clf):
     """
@@ -15,5 +16,50 @@ def detect(dataPath, clf):
         No returns.
     """
     # Begin your code (Part 4)
-    raise NotImplementedError("To be implemented")
+    # raise NotImplementedError("To be implemented")
     # End your code (Part 4)
+
+    # The numbers in the .txt file 
+    # File name, the amount of the face
+    # x_upper_left, y_upper_left, width, length
+    # Get the absolute path of the folder
+    cwd = os.getcwd()
+    filePath = cwd + '/AI_HW1/' 
+
+    file_info = []
+    face_in_single_file = []
+    face_all = []
+    with open(filePath + dataPath) as f:
+      for line in f.readlines():
+        element = line.split()
+        if len(element) == 2:
+          file_info.append(element)
+          if not len(face_in_single_file) == 0:
+            face_all.append(face_in_single_file)
+            face_in_single_file = []
+        else :
+          face_in_single_file.append(element)
+      face_all.append(face_in_single_file)
+    
+    for info, faces in zip(file_info, face_all):
+      name, num = info[0], int(info[1])
+      img = cv2.imread(filePath + 'data/detect/' + name)
+      for i in range(0, num):
+        x = int(faces[i][0])
+        y = int(faces[i][1])
+        w = int(faces[i][2])
+        h = int(faces[i][3])
+        face = img[y:y+h, x:x+w]
+        face = cv2.resize(face, (19, 19), interpolation=cv2.INTER_AREA)
+        face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+        color = (0,255,0) if clf.classify(face) == 1 else (0,0,255)
+        cv2.rectangle(img, (x, y), (x+w, y+h), color, 2, cv2.LINE_AA)
+      cv2.imshow(name, img)
+    cv2.waitKey(0)
+        
+
+
+    
+
+
+           

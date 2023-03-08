@@ -148,8 +148,35 @@ class Adaboost:
             bestError: The error of the best classifer
         """
         # Begin your code (Part 2)
-        raise NotImplementedError("To be implemented")
+        # raise NotImplementedError("To be implemented")
         # End your code (Part 2)
+        
+        errors = []
+        weaks = []
+
+        # Using each feature to establish a weakclassfier
+        # The goal is to find the best classifier
+        for feature in features:  
+          result = []
+          weak = WeakClassifier(feature)
+          weaks.append(weak)
+
+          # For every data in the dataset
+          for i in iis:
+            result.append(weak.classify(i))
+          miss = [int(i != j) for i, j in zip(result, labels)]
+          error = np.dot(weights, miss)
+          errors.append(error)
+        
+        # Find out the smallest error
+        min_error = 1
+        for i in range(0,len(errors)):
+          if errors[i] < min_error: 
+            min_error = errors[i]
+            min_error_index = i
+        
+        bestClf = weaks[min_error_index]
+        bestError = min_error
         return bestClf, bestError
     
     def classify(self, image):
