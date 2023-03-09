@@ -18,7 +18,7 @@ def loadImages(dataPath):
 
     # Get the absolute path of the folder
     cwd = os.getcwd()
-    dataPath = cwd + '/AI_HW1/' + dataPath
+    dataPath = cwd + '/'+ dataPath
 
     # Collect the images in the folder
     dataset = []
