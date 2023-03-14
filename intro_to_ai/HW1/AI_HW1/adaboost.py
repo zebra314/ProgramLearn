@@ -130,6 +130,10 @@ class Adaboost:
                 featureVals[j, i] = features[j].computeFeature(iis[i])
         return featureVals
 
+
+    # False Positive Rate: 62/100 (0.620000)
+    # False Negative Rate: 4/100 (0.040000)
+    # Accuracy: 134/200 (0.670000)
     def selectBest(self, featureVals, iis, labels, features, weights):
         """
         Finds the appropriate weak classifier for each feature.
@@ -154,34 +158,42 @@ class Adaboost:
         featureNum = featureVals.shape[0]
         dataNum = featureVals.shape[1]
         weaks = []
-
-        # Use feature to establish classifier woth polarity 1,-1
+        feats = []
         
-
-
-        # For each feature , create classifier, negative and positive
-        print(str(featureNum) + ' features')
         for i in range(featureNum):
-            for j in range(dataNum):
-                weakclf_neg = WeakClassifier(features[i],featureVals[i][j],-1)
-                weakclf_pos = WeakClassifier(features[i],featureVals[i][j],1)
-                weaks.append(weakclf_neg)
-                weaks.append(weakclf_pos)
-    
-        bestError = 1
-        print(str(len(weaks)) + ' classifiers')
+            weakclf_neg = WeakClassifier(features[i],0,-1)
+            weakclf_pos = WeakClassifier(features[i],0,1)
+            weaks.append(weakclf_neg)
+            weaks.append(weakclf_pos)
+            feats.append((features[i],-1))
+            feats.append((features[i],1))
+
         for i in range(len(weaks)):
             result = []
+            bestError = 1
             for k in range(dataNum):              
               result.append(weaks[i].classify(iis[k]))
             miss = [int(l!=m) for l, m in zip(result, labels)]
             error = np.dot(weights, miss)
             if error < bestError: 
               bestError = error
-              bestClf = weaks[i]
+              bestFeature,bestPolarity = feats[i][0], feats[i][1]
+
+        for threshold in np.arange(-2,0,0.4):
+            weakclf = WeakClassifier(bestFeature, threshold, bestPolarity)
+            result = []
+            bestError = 1
+            for i in range(dataNum):              
+              result.append(weakclf.classify(iis[i]))
+            miss = [int(l!=m) for l, m in zip(result, labels)]
+            error = np.dot(weights, miss)
+            if error < bestError: 
+              bestError = error
+              bestClf = weakclf
+
         return bestClf, bestError
     
-    # not test yet
+    # Not working
     def custom_selectBest_v3(self, featureVals, iis, labels, features, weights): 
         """
         Finds the appropriate weak classifier for each feature.
@@ -208,7 +220,6 @@ class Adaboost:
         weaks = []
 
         # For each feature , create classifier, negative and positive
-        print(str(featureNum) + ' features')
         for i in range(featureNum):
             for j in range(dataNum):
                 weakclf_neg = WeakClassifier(features[i],featureVals[i][j],-1)
@@ -217,7 +228,6 @@ class Adaboost:
                 weaks.append(weakclf_pos)
     
         bestError = 1
-        print(str(len(weaks)) + ' classifiers')
         for i in range(len(weaks)):
             result = []
             for k in range(dataNum):              
@@ -229,7 +239,10 @@ class Adaboost:
               bestClf = weaks[i]
         return bestClf, bestError
     
-    # 0.720
+    # Evaluate your classifier with test dataset
+    # False Positive Rate: 9/100 (0.090000)
+    # False Negative Rate: 47/100 (0.470000)
+    # Accuracy: 144/200 (0.720000)
     def custom_selectBest_v2(self, featureVals, iis, labels, features, weights): 
         featureNum = featureVals.shape[0]
         dataNum = featureVals.shape[1]
@@ -253,7 +266,7 @@ class Adaboost:
 
             if error_neg < error_pos:
                 weaks.append(weakclf_neg)
-                errors.apppend(error_neg)
+                errors.append(error_neg)
             else :
                 weaks.append(weakclf_pos)
                 errors.append(error_pos)
