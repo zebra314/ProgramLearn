@@ -129,7 +129,7 @@ class Adaboost:
             for i in range(len(iis)):
                 featureVals[j, i] = features[j].computeFeature(iis[i])
         return featureVals
-    
+
     def selectBest(self, featureVals, iis, labels, features, weights):
         """
         Finds the appropriate weak classifier for each feature.
@@ -150,7 +150,126 @@ class Adaboost:
         # Begin your code (Part 2)
         # raise NotImplementedError("To be implemented")
         # End your code (Part 2)
+
+        featureNum = featureVals.shape[0]
+        dataNum = featureVals.shape[1]
+        weaks = []
+
+        # Use feature to establish classifier woth polarity 1,-1
         
+
+
+        # For each feature , create classifier, negative and positive
+        print(str(featureNum) + ' features')
+        for i in range(featureNum):
+            for j in range(dataNum):
+                weakclf_neg = WeakClassifier(features[i],featureVals[i][j],-1)
+                weakclf_pos = WeakClassifier(features[i],featureVals[i][j],1)
+                weaks.append(weakclf_neg)
+                weaks.append(weakclf_pos)
+    
+        bestError = 1
+        print(str(len(weaks)) + ' classifiers')
+        for i in range(len(weaks)):
+            result = []
+            for k in range(dataNum):              
+              result.append(weaks[i].classify(iis[k]))
+            miss = [int(l!=m) for l, m in zip(result, labels)]
+            error = np.dot(weights, miss)
+            if error < bestError: 
+              bestError = error
+              bestClf = weaks[i]
+        return bestClf, bestError
+    
+    # not test yet
+    def custom_selectBest_v3(self, featureVals, iis, labels, features, weights): 
+        """
+        Finds the appropriate weak classifier for each feature.
+        Selects the best weak classifier for the given weights.
+          Parameters:
+            featureVals: A numpy array of shape (len(features), len(dataset)).
+              Each row represents the values of a single feature for each training sample.
+            iis: A list of numpy array with shape (m, n) representing the integral images.
+            labels: A list of integer.
+              The ith element is the classification of the ith training sample.
+            features: A numpy array of HaarFeature class.
+            weights: A numpy array with shape(len(dataset)).
+              The ith element is the weight assigned to the ith training sample.
+          Returns:
+            bestClf: The best WeakClassifier Class
+            bestError: The error of the best classifer
+        """
+        # Begin your code (Part 2)
+        # raise NotImplementedError("To be implemented")
+        # End your code (Part 2)
+
+        featureNum = featureVals.shape[0]
+        dataNum = featureVals.shape[1]
+        weaks = []
+
+        # For each feature , create classifier, negative and positive
+        print(str(featureNum) + ' features')
+        for i in range(featureNum):
+            for j in range(dataNum):
+                weakclf_neg = WeakClassifier(features[i],featureVals[i][j],-1)
+                weakclf_pos = WeakClassifier(features[i],featureVals[i][j],1)
+                weaks.append(weakclf_neg) 
+                weaks.append(weakclf_pos)
+    
+        bestError = 1
+        print(str(len(weaks)) + ' classifiers')
+        for i in range(len(weaks)):
+            result = []
+            for k in range(dataNum):              
+              result.append(weaks[i].classify(iis[k]))
+            miss = [int(l!=m) for l, m in zip(result, labels)]
+            error = np.dot(weights, miss)
+            if error < bestError: 
+              bestError = error
+              bestClf = weaks[i]
+        return bestClf, bestError
+    
+    # 0.720
+    def custom_selectBest_v2(self, featureVals, iis, labels, features, weights): 
+        featureNum = featureVals.shape[0]
+        dataNum = featureVals.shape[1]
+
+        errors = []
+        weaks = []
+
+        # For each feature , create two classifier, negative and positive
+        for i in range(featureNum):
+            result_neg = []
+            result_pos = []
+            weakclf_neg = WeakClassifier(features[i],0,-1)
+            weakclf_pos = WeakClassifier(features[i],0,1)
+            for j in range(dataNum):
+                result_neg.append(weakclf_neg.classify(iis[j]))
+                result_pos.append(weakclf_pos.classify(iis[j]))
+            miss_neg = [int(l!=m) for l, m in zip(result_neg, labels)]
+            miss_pos = [int(l!=m) for l, m in zip(result_pos, labels)]
+            error_neg = np.dot(weights, miss_neg)
+            error_pos = np.dot(weights, miss_pos)
+
+            if error_neg < error_pos:
+                weaks.append(weakclf_neg)
+                errors.apppend(error_neg)
+            else :
+                weaks.append(weakclf_pos)
+                errors.append(error_pos)
+
+        min_error = 1
+        for i in range(0,len(errors)):
+            if errors[i] < min_error: 
+              min_error = errors[i]
+              min_error_index = i
+        bestClf = weaks[min_error_index]
+        bestError = min_error
+        return bestClf, bestError
+    
+    # 0.595
+    def custom_selectBest_v1(self, featureVals, iis, labels, features, weights): 
+
         errors = []
         weaks = []
 

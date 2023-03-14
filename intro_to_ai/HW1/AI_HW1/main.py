@@ -4,6 +4,10 @@ import utils
 import detection
 import matplotlib.pyplot as plt
 
+import torch
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+
 # Part 1: Implement loadImages function in dataset.py and test the following code.
 print('Loading images')
 trainData = dataset.loadImages('data/train')
@@ -25,7 +29,7 @@ plt.show()
 # Part 3: Modify difference values at parameter T of the Adaboost algorithm.
 # And find better results. Please test value 1~10 at least.
 # print('Start training your classifier')
-clf = adaboost.Adaboost(T=1)
+clf = adaboost.Adaboost(T=10)
 clf.train(trainData)
 
 clf.save('clf_200_1_10')
