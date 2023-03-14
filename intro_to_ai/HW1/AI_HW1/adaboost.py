@@ -56,7 +56,7 @@ class Adaboost:
             # Normalize weights
             weights = weights / np.sum(weights)
             # Compute error and select best classifiers
-            clf, error = self.selectBest(featureVals, iis, labels, features, weights)
+            clf, error = self.custom_selectBest(featureVals, iis, labels, features, weights)
             #update weights
             accuracy = []
             for x, y in zip(iis, labels):
@@ -130,10 +130,6 @@ class Adaboost:
                 featureVals[j, i] = features[j].computeFeature(iis[i])
         return featureVals
 
-
-    # False Positive Rate: 62/100 (0.620000)
-    # False Negative Rate: 4/100 (0.040000)
-    # Accuracy: 134/200 (0.670000)
     def selectBest(self, featureVals, iis, labels, features, weights):
         """
         Finds the appropriate weak classifier for each feature.
@@ -153,104 +149,32 @@ class Adaboost:
         """
         # Begin your code (Part 2)
         # raise NotImplementedError("To be implemented")
-        # End your code (Part 2)
-
-        featureNum = featureVals.shape[0]
-        dataNum = featureVals.shape[1]
-        weaks = []
-        feats = []
+        features_num = featureVals.shape[0]
+        dataset_num = featureVals.shape[1]
+        errors = np.zeros(features_num)
         
-        for i in range(featureNum):
-            weakclf_neg = WeakClassifier(features[i],0,-1)
-            weakclf_pos = WeakClassifier(features[i],0,1)
-            weaks.append(weakclf_neg)
-            weaks.append(weakclf_pos)
-            feats.append((features[i],-1))
-            feats.append((features[i],1))
+        for i in range(features_num):
+          miss = [ int( (1 if j < 0 else 0) != k) for j,k in zip(featureVals[i],labels)]          
+          errors[i] = np.dot(weights, miss)
 
-        for i in range(len(weaks)):
-            result = []
-            bestError = 1
-            for k in range(dataNum):              
-              result.append(weaks[i].classify(iis[k]))
-            miss = [int(l!=m) for l, m in zip(result, labels)]
-            error = np.dot(weights, miss)
-            if error < bestError: 
-              bestError = error
-              bestFeature,bestPolarity = feats[i][0], feats[i][1]
-
-        for threshold in np.arange(-2,0,0.4):
-            weakclf = WeakClassifier(bestFeature, threshold, bestPolarity)
-            result = []
-            bestError = 1
-            for i in range(dataNum):              
-              result.append(weakclf.classify(iis[i]))
-            miss = [int(l!=m) for l, m in zip(result, labels)]
-            error = np.dot(weights, miss)
-            if error < bestError: 
-              bestError = error
-              bestClf = weakclf
-
-        return bestClf, bestError
-    
-    # Not working
-    def custom_selectBest_v3(self, featureVals, iis, labels, features, weights): 
-        """
-        Finds the appropriate weak classifier for each feature.
-        Selects the best weak classifier for the given weights.
-          Parameters:
-            featureVals: A numpy array of shape (len(features), len(dataset)).
-              Each row represents the values of a single feature for each training sample.
-            iis: A list of numpy array with shape (m, n) representing the integral images.
-            labels: A list of integer.
-              The ith element is the classification of the ith training sample.
-            features: A numpy array of HaarFeature class.
-            weights: A numpy array with shape(len(dataset)).
-              The ith element is the weight assigned to the ith training sample.
-          Returns:
-            bestClf: The best WeakClassifier Class
-            bestError: The error of the best classifer
-        """
-        # Begin your code (Part 2)
-        # raise NotImplementedError("To be implemented")
+        bestError = errors[0]
+        bestClf = WeakClassifier(features[0])
+        
+        for i in range(1, features_num):
+          if errors[i] < bestError:
+            bestClf = WeakClassifier(features[i])
+            bestError = errors[i] 
         # End your code (Part 2)
-
-        featureNum = featureVals.shape[0]
-        dataNum = featureVals.shape[1]
-        weaks = []
-
-        # For each feature , create classifier, negative and positive
-        for i in range(featureNum):
-            for j in range(dataNum):
-                weakclf_neg = WeakClassifier(features[i],featureVals[i][j],-1)
-                weakclf_pos = WeakClassifier(features[i],featureVals[i][j],1)
-                weaks.append(weakclf_neg) 
-                weaks.append(weakclf_pos)
-    
-        bestError = 1
-        for i in range(len(weaks)):
-            result = []
-            for k in range(dataNum):              
-              result.append(weaks[i].classify(iis[k]))
-            miss = [int(l!=m) for l, m in zip(result, labels)]
-            error = np.dot(weights, miss)
-            if error < bestError: 
-              bestError = error
-              bestClf = weaks[i]
         return bestClf, bestError
-    
-    # Evaluate your classifier with test dataset
-    # False Positive Rate: 9/100 (0.090000)
-    # False Negative Rate: 47/100 (0.470000)
-    # Accuracy: 144/200 (0.720000)
-    def custom_selectBest_v2(self, featureVals, iis, labels, features, weights): 
+
+    # Begin your code (Part 6)
+    def custom_selectBest(self, featureVals, iis, labels, features, weights): 
         featureNum = featureVals.shape[0]
         dataNum = featureVals.shape[1]
-
         errors = []
         weaks = []
 
-        # For each feature , create two classifier, negative and positive
+        # For each feature , create two classifier(polarity = 1, -1)
         for i in range(featureNum):
             result_neg = []
             result_pos = []
@@ -263,7 +187,7 @@ class Adaboost:
             miss_pos = [int(l!=m) for l, m in zip(result_pos, labels)]
             error_neg = np.dot(weights, miss_neg)
             error_pos = np.dot(weights, miss_pos)
-
+            
             if error_neg < error_pos:
                 weaks.append(weakclf_neg)
                 errors.append(error_neg)
@@ -274,43 +198,13 @@ class Adaboost:
         min_error = 1
         for i in range(0,len(errors)):
             if errors[i] < min_error: 
-              min_error = errors[i]
-              min_error_index = i
+                min_error = errors[i]
+                min_error_index = i
         bestClf = weaks[min_error_index]
         bestError = min_error
         return bestClf, bestError
-    
-    # 0.595
-    def custom_selectBest_v1(self, featureVals, iis, labels, features, weights): 
+    # End your code (Part 6)
 
-        errors = []
-        weaks = []
-
-        # Using each feature to establish a weakclassfier
-        # The goal is to find the best classifier
-        for feature in features:  
-          result = []
-          weak = WeakClassifier(feature)
-          weaks.append(weak)
-
-          # For every data in the dataset
-          for i in iis:
-            result.append(weak.classify(i))
-          miss = [int(i != j) for i, j in zip(result, labels)]
-          error = np.dot(weights, miss)
-          errors.append(error)
-        
-        # Find out the smallest error
-        min_error = 1
-        for i in range(0,len(errors)):
-          if errors[i] < min_error: 
-            min_error = errors[i]
-            min_error_index = i
-        
-        bestClf = weaks[min_error_index]
-        bestError = min_error
-        return bestClf, bestError
-    
     def classify(self, image):
         """
         Classifies an image

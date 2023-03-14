@@ -2,6 +2,7 @@ import os
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime
 
 def detect(dataPath, clf):
     """
@@ -17,19 +18,13 @@ def detect(dataPath, clf):
     """
     # Begin your code (Part 4)
     # raise NotImplementedError("To be implemented")
-    # End your code (Part 4)
-
-    # The numbers in the .txt file 
-    # (File name, the amount of the face)
-    # (x_upper_left, y_upper_left, width, length)
-    # Get the absolute path of the folder
     cwd = os.getcwd()
     filePath = cwd + '/' 
 
     file_info = []
-    face_in_single_file = []
     face_all = []
-
+    face_in_single_file = []
+    
     # Extract the text from the .txt file
     with open(filePath + dataPath) as f:
       for line in f.readlines():
@@ -57,6 +52,7 @@ def detect(dataPath, clf):
         cv2.rectangle(img, (x, y), (x+w, y+h), color, 2, cv2.LINE_AA)
       cv2.imshow(name, img)
     cv2.waitKey(0)
+    # End your code (Part 4)
         
 
 
