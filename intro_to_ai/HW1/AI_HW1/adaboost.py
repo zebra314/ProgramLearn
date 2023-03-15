@@ -56,7 +56,7 @@ class Adaboost:
             # Normalize weights
             weights = weights / np.sum(weights)
             # Compute error and select best classifiers
-            clf, error = self.custom_selectBest(featureVals, iis, labels, features, weights)
+            clf, error = self.selectBest(featureVals, iis, labels, features, weights)
             #update weights
             accuracy = []
             for x, y in zip(iis, labels):
