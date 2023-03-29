@@ -7,5 +7,6 @@
         "regex": "cpp",
         "utility": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "vscode-pets.throwBallWithMouse": true
 }
