@@ -2,19 +2,19 @@
 using namespace std;
 
 stringstream ss;
-// int digitSum (string num){
-//     int ans = 0;
-//     for(const auto &ele : num){
-//         ans += int(ele - '0');
-//     }
-//     ss.str("");
-//     ss.clear();
-//     ss<<ans;
-//     ss>>num;
-//     if(ans%9 != 0 ) return 0;
-//     else if(ans == 9) return 1;
-//     return digitSum(num)+1;
-// }
+int digitSum (string num){
+    int ans = 0;
+    for(const auto &ele : num){
+        ans += int(ele - '0');
+    }
+    ss.str("");
+    ss.clear();
+    ss<<ans;
+    ss>>num;
+    if(ans%9 != 0 ) return 0;
+    else if(ans == 9) return 1;
+    return digitSum(num)+1;
+}
 
 int main(){
     string num;
